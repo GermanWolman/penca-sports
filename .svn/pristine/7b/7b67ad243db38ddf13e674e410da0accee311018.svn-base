@@ -1,0 +1,32 @@
+package com.pronostico.penca.ejb.impl;
+
+import java.util.logging.Logger;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.pronostico.penca.ejb.api.ITorneoEJBLocal;
+import com.pronostico.penca.model.Torneo;
+
+/**
+ * Session Bean implementation class TorneoEJB
+ */
+@Stateless
+@LocalBean
+public class TorneoEJB implements ITorneoEJBLocal {
+
+	Logger logger = Logger.getLogger("TorneoEJB");
+
+	@PersistenceContext(unitName = "primary")
+	EntityManager em;
+
+	public Torneo altaTorneo(Torneo t) {
+		t = em.merge(t);
+
+		return t;
+
+	}
+
+}

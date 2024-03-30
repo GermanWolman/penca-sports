@@ -1,0 +1,15 @@
+package com.pronostico.penca.ejb.api;
+
+import com.pronostico.penca.model.Pronostico;
+
+public interface IPronosticoEJBLocal {
+
+	Pronostico ingresarPronostico(Pronostico p);
+
+	Pronostico obtenerPronosticoPorId(Long id);
+
+	void calcularPuntaje(Pronostico p);
+
+	Pronostico pronosticarViaHash(Long hash);
+
+}

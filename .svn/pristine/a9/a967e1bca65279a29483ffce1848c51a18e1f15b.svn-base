@@ -1,0 +1,118 @@
+package com.pronostico.penca.ejb.impl;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import com.pronostico.penca.ejb.api.IGrupoPencaEJBLocal;
+import com.pronostico.penca.model.Grupo;
+import com.pronostico.penca.model.GrupoPenca;
+import com.pronostico.penca.model.Pronostico;
+import com.pronostico.penca.model.Usuario;
+
+/**
+ * Session Bean implementation class GrupoEJB
+ */
+@Stateless
+public class GrupoPencaEJB implements IGrupoPencaEJBLocal {
+
+	Logger logger = Logger.getLogger("GrupoEJB");
+
+	@PersistenceContext(unitName = "primary")
+	EntityManager em;
+
+	public Grupo altaGrupo(Grupo g) {
+		g = em.merge(g);
+
+		return g;
+	}
+
+	public GrupoPenca obtenerGrupoPencaPorNombre(String nombreGrupo) {
+
+		Query query = em.createNamedQuery("obtenerGrupoPencaPorNombre");
+		query.setParameter("nombreGrupoPenca", nombreGrupo);
+
+		GrupoPenca g = (GrupoPenca) query.getSingleResult();
+
+		return g;
+
+	}
+
+	public GrupoPenca obtenerGrupoPencaPorId(Long idGrupo) {
+
+		GrupoPenca g = em.find(GrupoPenca.class, idGrupo);
+
+		return g;
+
+	}
+
+	public List<GrupoPenca> obtenerTodosLosGrupos() {
+		Query query = em.createNamedQuery("obtenerTodosLosGruposPenca");
+
+		List<GrupoPenca> grupos = query.getResultList();
+
+		return grupos;
+
+	}
+	
+	public List<Pronostico> obtenerPronosticosPorGrupoPenca(Long idGrupoPenca) {
+		Query query = em.createNamedQuery("obtenerPronosticosPorGrupoPenca");
+
+		List<Pronostico> pronosticosDelGrupo = query.getResultList();
+
+		return pronosticosDelGrupo;
+
+	}
+	
+
+
+	public GrupoPenca obtenerGrupoPencaPorHash(Long hash) {
+		// Obtengo el ID del grupoPenca a partir del hash
+		GrupoPenca g = em.find(GrupoPenca.class, hash);
+
+		return g;
+
+	}
+	
+	public Long obtenerHashDeGrupoPenca(Long id) {
+		
+		Long hash = null;
+		//Obtengo el hash a partir del id de grupo
+		
+		
+		return hash;
+	}
+	
+	public void enviarMensajeAlGrupo(Long idGrupo) {
+		
+		GrupoPenca g = obtenerGrupoPencaPorId(idGrupo);
+		
+		List<Usuario> usuariosGrupo = g.getUsuarios();
+		for (Usuario usuario : usuariosGrupo) {
+			//Envio mail
+			logger.info("Direccion de mail:" + usuario.getEmail());
+		}
+		
+	}
+	
+	public List<String> obtenerTablaDelGrupo(Long idGrupoPenca) {
+		//FIXME
+		//Recorro la lista de usuarios y calculo sus puntajes?
+		//Mejor definir un DTO con la tabla de puntajes, no?
+		
+		return null;
+	}
+	
+	public List<String> obtenerTablaGeneral() {
+		//FIXME
+		//Recorro la lista de usuarios y calculo sus puntajes, tomando el mejor de ellos para la general?
+		//Mejor definir un DTO con la tabla de puntajes, no?
+		
+		return null;
+	}
+	
+}

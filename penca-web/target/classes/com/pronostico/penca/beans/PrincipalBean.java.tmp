@@ -1,0 +1,65 @@
+package com.pronostico.penca.beans;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+
+//import com.pronostico.penca.ejb.api.IUsuariosEJBLocal;
+import com.pronostico.penca.ejb.api.IUsuariosEjbLocal;
+
+@ManagedBean(name = "principalBean")
+@RequestScoped
+public class PrincipalBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	IUsuariosEjbLocal ejbUsuarios;
+
+	@ManagedProperty("#{sesionBean}")
+	private SesionBean sesion;
+
+	private String usuario;
+	private String nombre;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("PrincipalBean init()");
+		if (sesion.getUsuarioLogueado() != null) {
+
+			usuario = sesion.getUsuarioLogueado().getUsuario();
+			nombre = sesion.getUsuarioLogueado().getNombre();
+		} else {
+			System.out.println("usuario null");
+		}
+	}
+
+	public SesionBean getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(SesionBean sesion) {
+		this.sesion = sesion;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+}

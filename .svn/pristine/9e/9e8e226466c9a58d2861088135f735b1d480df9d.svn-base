@@ -1,0 +1,69 @@
+package com.pronostico.penca.ejb.impl;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.pronostico.penca.ejb.api.ITorneoEJBLocal;
+import com.pronostico.penca.model.Equipo;
+import com.pronostico.penca.model.Torneo;
+
+/**
+ * Session Bean implementation class TorneoEJB
+ */
+@Stateless
+@LocalBean
+@SuppressWarnings("unchecked")
+public class TorneoEJB implements ITorneoEJBLocal {
+
+	Logger logger = Logger.getLogger("TorneoEJB");
+
+	@PersistenceContext(unitName = "primary")
+	EntityManager em;
+
+	public Torneo altaTorneo(Torneo torneo) {
+
+		torneo = em.merge(torneo);
+
+		return torneo;
+
+	}
+
+	public Torneo obtenerTorneoPorId(Long id) {
+		Torneo t = em.find(Torneo.class, id);
+
+		if (t != null && t.getEquipos() != null) {
+			logger.info("Traje " + t.getEquipos().size() + " equipos.");
+		}
+
+		return t;
+	}
+
+	public List<Torneo> obtenerTorneosVigentes() {
+
+		List<Torneo> torneos = em.createNamedQuery("obtenerTorneos").getResultList();
+
+		logger.info("Traje " + torneos.size() + " torneos.");
+
+		for (Torneo torneo : torneos) {
+			logger.info("Este torneo tiene" + torneo.getEquipos().size() + " equipos.");
+		}
+
+		return torneos;
+
+	}
+
+	public List<Equipo> guardarEquipos(List<Equipo> equipos) {
+		for (Equipo equipo : equipos) {
+			equipo = em.merge(equipo);
+			logger.fine("Equipo guardado:" + equipo);
+		}
+
+		return equipos;
+	}
+
+}

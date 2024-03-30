@@ -1,0 +1,223 @@
+
+/******** LOGIN *********/
+
+.login {
+    background: url("../img/login_bg.jpg") top right;
+}
+
+.register_box_visibility{
+    display: none;
+}
+
+.login_left{
+    position: relative;
+    float: left;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    
+}
+
+.login_right{
+    position: relative;
+    float: left;
+    
+}
+
+.login_left{
+    width: 56%;
+    padding: 0 2%;
+}
+
+.login_right{
+    width: 40%;
+    padding: 0;
+    height: 750px;
+}
+
+.login_left_container{
+    max-width: 600px;
+}
+
+
+
+.login_logo{
+    margin: 50px 0 40px;
+}
+
+.login_left {
+    
+    h1{
+        font-family: BebasNeueBold;
+        color: @text;
+        font-size: 48px;
+        padding: 0 0 20px;
+        margin: 0;
+    }
+    p{
+        font-family: BebasNeueRegular;
+        color: @text;
+        font-size: 36px;
+        padding: 0 0 10px;
+        margin: 0;
+    }
+}
+
+
+.login_right{
+    h2{
+        font-size: 18px;
+        color: @text;
+        text-align: center;
+        width: 100%;
+        padding: 20px 0 10px;
+        font-weight: normal;
+        margin: 0;
+    }
+}
+
+.login_box{
+    float: left;
+    position: relative;
+    z-index: 1;
+    width: 300px;
+    padding: 40px 25px;
+    top: 130px;
+}
+
+.login_box_bg {
+    position: absolute;
+    left: 0;
+    top: 100px;
+    width: 325px;
+    height: 520px;
+    padding: 40px 20px;
+    background: @primary2;
+    .transform(skewY(-5deg));
+}
+
+.btn_login {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.btn_social {
+    display: block;
+    border: 0;
+    color: @text;
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 10px;
+    
+    img{
+        position: absolute;
+        left: 20px;
+        top: 8px;
+    }
+}
+
+.btn_facebook {
+    background: #485a92;
+    
+    &:hover, &:active{
+        background: #323f66;
+    }
+}
+
+.btn_google {
+    background: #c24b36;
+    
+     &:hover, &:active{
+        background: #983c2c;
+    }
+}
+
+
+
+/****** MEDIA QUERIES ******/
+
+@media only screen and (max-width: 1000px) {
+    
+    .login_left{
+        width: 42%;
+        padding: 0 4%;
+    }
+
+    .login_right{
+        width: 50%;
+        padding: 0;
+        height: 750px;
+    }
+    
+    .login_left {
+
+        h1{
+            font-size: 36px;
+        }
+        p{
+            font-size: 28px;
+        }
+    }
+    
+}
+
+@media only screen and (max-width: 900px) {
+    
+    label {
+        margin-top: 10px;
+    }
+    
+    .login_left p{
+        display: none;
+    }
+    
+    .login_left, .login_right{
+        display: block;
+        width: 90%;
+        padding: 0 5%;
+        text-align: center;
+        height: auto;
+    }
+    
+    .login_left_container, .login_right_container{
+        width: 100%;
+        text-align: center;
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .login_box {
+        float: none;
+        position: relative;
+        z-index: 1;
+        width: 280px;
+        padding: 0;
+        top: 30px;
+        margin: 0 auto;
+        text-align: left;
+        margin-bottom: 100px;
+        
+        input{
+            width:96%;
+            padding: 5px 2%;
+        }
+    }
+
+    .login_box_bg {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 320px;
+        padding: 0;
+        margin-left: -160px;
+    }
+    
+}
+
+

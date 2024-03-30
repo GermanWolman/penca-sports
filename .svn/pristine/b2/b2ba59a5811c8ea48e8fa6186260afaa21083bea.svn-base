@@ -1,0 +1,31 @@
+package com.pronostico.penca.ejb.api;
+
+import java.util.List;
+
+import javax.ejb.Local;
+
+import com.pronostico.penca.model.Grupo;
+import com.pronostico.penca.model.GrupoPenca;
+
+@Local
+public interface IGrupoPencaEJBLocal {
+
+	Grupo altaGrupo(Grupo g);
+
+	GrupoPenca obtenerGrupoPencaPorNombre(String nombreGrupo);
+
+	GrupoPenca obtenerGrupoPencaPorId(Long idGrupo);
+
+	List<GrupoPenca> obtenerTodosLosGrupos();
+
+	GrupoPenca obtenerGrupoPencaPorHash(Long hash);
+
+	Long obtenerHashDeGrupoPenca(Long id);
+
+	void enviarMensajeAlGrupo(Long idGrupo);
+
+	List<String> obtenerTablaDelGrupo(Long idGrupoPenca);
+
+	List<String> obtenerTablaGeneral();
+
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Principal</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/bootstrap/css/bootstrap.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/animate/animate.css" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css"
+		href="vendor/css-hamburgers/hamburgers.min.css" />
+	<!--===============================================================================================-->
+</h:head>
+<h:body>
+	<b>BIENVENIDO</b>
+	#{principalBean.sesion.usuarioLogueado.usuario}:#{principalBean.sesion.usuarioLogueado.nombre} #{principalBean.sesion.usuarioLogueado.apellido}  
+	<h:form prependId="false">
+		<h:commandButton action="#{principalBean.sesion.logout()}"
+			value="Cerrar sesion" />
+
+		<ui:repeat var="grupo" value="#{principalBean.grupos}"
+			varStatus="status">
+
+			<h3>#{grupo.nombre}</h3>
+
+			<ui:repeat var="fecha" value="#{grupo.fechas}" varStatus="status">
+
+				<h5>#{fecha.nombre}</h5>
+
+				<table class="order-table table-dark">
+					<thead class="thead-dark">
+						<tr>
+							<th class="order-table-header">Fecha</th>
+							<th class="order-table-header">Equipo Local</th>
+							<th class="order-table-header">Goles Local</th>
+							<th class="order-table-header">Equipo Visitante</th>
+							<th class="order-table-header">Goles Visitante</th>
+						</tr>
+					</thead>
+					<tbody>
+						<ui:repeat var="partido" value="#{fecha.partidos}"
+							varStatus="status">
+							<h:panelGroup rendered="#{status.even}">
+								<tr>
+									<td class="order-table-even-row"><h:outputText
+											value="#{partido.fecha}">
+											<f:convertDateTime pattern=" dd MMM YYYY HH:mm" />
+										</h:outputText></td>
+									<td class="order-table-even-row">#{partido.equipoLocal.nombre}</td>
+									<td class="order-table-even-row">#{partido.golesReglamentariosLocal}</td>
+									<td class="order-table-even-row">#{partido.equipoVisitante.nombre}</td>
+									<td class="order-table-even-row">#{partido.golesReglamentariosVisitante}</td>
+								</tr>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{status.odd}">
+								<tr>
+									<td class="order-table-even-row"><h:outputText
+											value="#{partido.fecha}">
+											<f:convertDateTime pattern=" dd MMM YYYY HH:mm" />
+										</h:outputText></td>
+									<td class="order-table-even-row">#{partido.equipoLocal.nombre}</td>
+									<td class="order-table-even-row">#{partido.golesReglamentariosLocal}</td>
+									<td class="order-table-even-row">#{partido.equipoVisitante.nombre}</td>
+									<td class="order-table-even-row">#{partido.golesReglamentariosVisitante}</td>
+								</tr>
+							</h:panelGroup>
+						</ui:repeat>
+					</tbody>
+				</table>
+
+
+
+			</ui:repeat>
+			<hr />
+		</ui:repeat>
+
+	</h:form>
+
+</h:body>
+</html>

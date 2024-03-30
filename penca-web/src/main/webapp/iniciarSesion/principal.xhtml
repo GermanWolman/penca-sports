@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Principal</title>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title></title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="manifest"
+		href="http://retrieverfamily.com/penca/site/site.webmanifest" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i"
+		rel="stylesheet" />
+	<link rel="apple-touch-icon"
+		href="http://retrieverfamily.com/penca/site/icon.png" />
+	<link href="css" rel="stylesheet" />
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/icons.css" />
+	<link rel="stylesheet" href="css/main.css" />
+	<!-- 	<link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+	<!-- 	<link rel="stylesheet" href="css/bootstrap-penca-2018.css" /> -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css" />
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+</h:head>
+<h:body class="login clearfix">
+	<h:form prependId="false">
+		<div class="header navbar"
+			style="position: fixed; margin-top: -10px; height: 60px; z-index: 1000; opacity: 1;">
+			<div style="float: left">
+				<p style="height: 30px;" class="navbar-brand">#{principalBean.sesion.usuarioLogueado.nombre}
+					#{principalBean.sesion.usuarioLogueado.apellido}</p>
+			</div>
+
+			<div style="float: right">
+				<h:commandLink action="#{principalBean.sesion.logout()}" value=""
+					styleClass="my-2 my-sm-0 cerrar-cesion" title="Cerrar cesión">
+					<i style="margin-top: 15px; margin-right: 15px;"
+						class="fa fa-sign-out" aria-hidden="true"></i>
+				</h:commandLink>
+			</div>
+		</div>
+	</h:form>
+	<div class="container" style="width: 100%;">
+		<div class="titulo" style="margin-top: 50px;">
+			<h1>
+				<img src="img/logo.png" width="134" class="login_logo"
+					style="margin-right: 50px;" /> <b>BIENVENIDO A PENCA SPORTS</b>
+			</h1>
+		</div>
+		<div class="login_left" style="padding: 0% 2%;">
+			<div class="login_left_container" style="max-width: 80% !important;">
+				<ul class="torneos">
+					<h:form prependId="false">
+						<ui:repeat var="torneo" value="#{principalBean.torneos}"
+							status="status">
+							<li>
+								<div style="display: grid; grid-template-columns: 2fr 8fr;">
+									<div>
+										<h:graphicImage value="#{torneo.logo}" />
+									</div>
+									<div>
+										<h1>#{torneo.nombre}</h1>
+										<p>#{torneo.descripcion}</p>
+									</div>
+								</div>
+								<div
+									style="display: flex; gap: 16px; justify-content: flex-end;">
+									<div>
+										<h:commandButton styleClass="btn_primary btn_login"
+											style="font-size: 15px; padding-left: 5px; padding-right: 5px;"
+											action="#{principalBean.irPronosticar(torneo.id)}"
+											value="Pronosticar" />
+									</div>
+									<div class="col-md-2">
+										<h:commandButton
+											styleClass="btn_primary btn_login btn_posiciones"
+											style="font-size: 15px; padding-left: 5px; padding-right: 5px;"
+											action="#{principalBean.irPuntajes(torneo.id)}"
+											value="Posiciones" />
+									</div>
+								</div>
+							</li>
+						</ui:repeat>
+					</h:form>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script>
+   
+	function error(mensaje){ 
+        console.log("entra a guardar error");
+        swal(
+        		'Error!',
+				mensaje,
+				'error'
+			)
+    	console.log("sale de guardar error");
+    }
+    
+    </script>
+
+
+</h:body>
+</html>

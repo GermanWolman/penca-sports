@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Pronostico</title>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title></title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="manifest"
+		href="http://retrieverfamily.com/penca/site/site.webmanifest" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed"
+		rel="stylesheet" />
+	<link
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous" />
+	<link rel="apple-touch-icon"
+		href="http://retrieverfamily.com/penca/site/icon.png" />
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/icons.css" />
+	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css" />
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+	<!-- 	<link rel="stylesheet" href="css/bootstrap.min.css" /> -->
+	<!-- 	<link rel="stylesheet" href="css/bootstrap-penca-2018.css" /> -->
+</h:head>
+<h:body class="login clearfix">
+
+	<h:form prependId="false">
+		<div class="header navbar"
+			style="position: fixed; margin-top: -10px; height: 60px; z-index: 1000; opacity: 1;">
+			<div style="float: left">
+				<p style="height: 30px;" class="navbar-brand">#{pronosticoBean.sesion.usuarioLogueado.nombre}
+					#{pronosticoBean.sesion.usuarioLogueado.apellido}</p>
+			</div>
+			<div style="float: left; margin-left: 45px;">
+				<ul class="menu">
+					<li><a href="principal.jsf">Torneos</a></li>
+					<li><a href="pronostico.jsf" class="active">Mis
+							Pronosticos</a></li>
+					<li><a href="puntajes.jsf">Posiciones</a></li>
+					<li><a href="pencas.jsf">Pencas</a></li>
+					<li><a href="administrarPencas.jsf">Administración</a></li>
+				</ul>
+			</div>
+			<div style="float: right">
+				<h:commandLink action="#{pronosticoBean.sesion.logout()}" value=""
+					styleClass="my-2 my-sm-0 cerrar-cesion" title="Cerrar cesión">
+					<i style="margin-top: 15px; margin-right: 15px;"
+						class="fa fa-sign-out" aria-hidden="true"></i>
+				</h:commandLink>
+			</div>
+		</div>
+	</h:form>
+	<div class="container" style="width: auto !important;">
+		<div class="grid-container">
+			<div class="titulo grid-item-1" style="">
+				<h1>
+					<b> #{pronosticoBean.sesion.torneoSeleccionado.nombre}</b> <img
+						src="img/logo.png"
+						style="margin-right: 50px; width: 100%; padding: 10px;" />
+				</h1>
+			</div>
+			<div class="titulo grid-item-2">
+				<h:form prependId="false">
+					<h1>
+						<b style="font-size: 50px;"> MIS PRONÓSTICOS</b>
+					</h1>
+					<h:panelGroup
+						rendered="#{pronosticoBean.grupoPencas==null or pronosticoBean.grupoPencas.size()==0}">
+						<div class="login_left" style="padding-top: 2%;">
+							<div class="login_left_container torneo">
+								<div class="grupo" style="margin-bottom: 0px !important;">
+									<div>
+										<div style="text-align: left;">
+											<h2
+												style="font-weight: bold; color: white; font-size: 20px; margin-top: 2%;">
+												No está registrado a ninguna penca, debe ir a la pestaña
+												Pencas para solicitar unirse.</h2>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</h:panelGroup>
+					<h:panelGroup id="panel"
+						rendered="#{pronosticoBean.grupoPencas!=null and pronosticoBean.grupoPencas.size()!=0}">
+						<div class="form-group select"
+							style="width: 50% !important; margin-left: 25% !important; margin-right: 25% !important; margin-top: 30px !important;">
+							<h:selectOneMenu id="select_grupo_penca" immediate="true"
+								style="background-color: #111111 !important;color: white;!Important"
+								value="#{pronosticoBean.grupoPencaSeleccionado}"
+								styleClass="form-control grupoPenca select-penca">
+								<f:selectItem itemLabel="Seleccione Penca"
+									noSelectionOption="true" itemDisabled="true" />
+								<f:selectItems value="#{pronosticoBean.grupoPencas}" var="p"
+									itemLabel="#{p.nombre}" itemValue="#{p.id}" />
+								<p:ajax oncomplete="cambio();"></p:ajax>
+							</h:selectOneMenu>
+
+						</div>
+						<p:remoteCommand name="cambiar" update="panelGeneral, panel"
+							action="#{pronosticoBean.cambiarPenca()}" />
+						<script type="text/javascript">
+							function cambio(){
+		                         var val = $("#select_grupo_penca")[0].value;
+		                         console.log("entró acaaaaaa");
+		                         console.log(val);
+		                         cambiar([{name: 'grupopenca', value: val}]);
+	                         }
+	                         
+                        </script>
+						<h:panelGroup id="panelGeneral"
+							rendered="#{pronosticoBean.sesion.grupoPencaUnica!=null}">
+							<div class="login_left" style="padding-top: 2%;">
+								<div class="login_left_container torneo">
+									<!-- 							<div class="form-group select"> -->
+									<!-- 								<h:selectOneMenu id="select_grupo_penca" -->
+									<!-- 									value="#{pronosticoBean.grupoPencaSeleccionado}" -->
+									<!-- 									styleClass="form-control grupoPenca" onchange="submit()" -->
+									<!-- 									valueChangeListener="#{pronosticoBean.grupoPencaChange}"> -->
+									<!-- 									<f:selectItem itemLabel="Seleccione Penca" -->
+									<!-- 										noSelectionOption="true" itemDisabled="true" /> -->
+									<!-- 									<f:selectItems value="#{pronosticoBean.grupoPencas}" var="p" -->
+									<!-- 										itemLabel="#{p.nombre}" itemValue="#{p.id}" /> -->
+									<!-- 								</h:selectOneMenu> -->
+									<!-- 							</div> -->
+									<!-- 														<ui:repeat var="grupo" -->
+									<!-- 															value="#{pronosticoBean.sesion.torneoSeleccionado.grupos}" -->
+									<!-- 															varStatus="status"> -->
+									<div class="grupo">
+										<div style="display: flex; justify-content: space-between;">
+											<div
+												style="text-align: left; text-transform: uppercase; padding-bottom: 10px;">
+												<h2 style="font-weight: bold; color: white;">
+													#{pronosticoBean.sesion.grupoPencaUnica.nombre}</h2>
+											</div>
+											<div>
+												<span class="count">
+													#{pronosticoBean.puntajeTotalTorneo} Pts.</span>
+											</div>
+										</div>
+									</div>
+									<ui:repeat var="grupo"
+										value="#{pronosticoBean.sesion.torneoSeleccionado.grupos}"
+										varStatus="status">
+										<ui:repeat var="fecha" value="#{grupo.fechas}"
+											varStatus="status">
+											<div class="fecha"
+												style="display: flex; justify-content: space-between; border-radius: 10px 10px 0px 0px;">
+												<div style="text-align: left;">
+													<h2 style="font-weight: 600; font-size: 22px;">#{fecha.nombre}</h2>
+												</div>
+												<div style="text-align: right; padding-right: 8px;">
+													<h2 style="font-size: 22px; font-weight: 600;">Pts.</h2>
+
+												</div>
+											</div>
+											<!-- 					<h:form> -->
+
+											<div class="datagrid">
+												<table>
+													<tbody>
+														<ui:repeat var="partido" value="#{fecha.partidos}"
+															varStatus="status">
+															<h:panelGroup rendered="#{status.even}">
+																<tr>
+
+																	<td
+																		class="order-table-even-row resultado resultado-#{partido.id}">
+																		<h:inputText value="#{partido.golesPronosticoLocal}"
+																			immediate="true" class="form-control quantity-input">
+																			<f:convertNumber IntegerOnly="true" />
+																		</h:inputText>
+																	</td>
+																	<td class="order-table-even-row equipoLocal">#{partido.equipoLocal.nombre}
+																	</td>
+																	<td class="order-table-even-row golesLocal"><h:panelGroup
+																			rendered="#{partido.golesReglamentariosLocal!=null}">
+																	(#{partido.golesReglamentariosLocal})
+																</h:panelGroup></td>
+																	<td
+																		class="order-table-even-row fechas fecha-#{partido.id}">
+																		<h:outputText value="#{partido.fecha}">
+																			<f:convertDateTime pattern="dd-MM-yyyy HH:mm"
+																				timeZone="America/Montevideo" />
+																		</h:outputText>
+																	</td>
+																	<td class="order-table-even-row golesVisitante"><h:panelGroup
+																			rendered="#{partido.golesReglamentariosVisitante!=null}">
+																	(#{partido.golesReglamentariosVisitante})
+																</h:panelGroup></td>
+																	<td class="order-table-even-row equipoVisitante">#{partido.equipoVisitante.nombre}
+																	</td>
+																	<td
+																		class="order-table-even-row resultado resultado-#{partido.id}">
+																		<h:inputText immediate="true"
+																			value="#{partido.golesPronosticoVisitante}"
+																			class="form-control quantity-input">
+																			<f:convertNumber IntegerOnly="true" />
+																		</h:inputText>
+																	</td>
+																	<td class="order-table-even-row puntos"><h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==0}">
+																			<div class="cero">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==3}">
+																			<div class="tres">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==5}">
+																			<div class="cinco">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]==null}">
+																			<div class="cero">0</div>
+																		</h:panelGroup></td>
+																</tr>
+															</h:panelGroup>
+															<h:panelGroup rendered="#{status.odd}">
+																<tr class="alt">
+																	<td
+																		class="order-table-even-row resultado resultado-#{partido.id}"><h:inputText
+																			value="#{partido.golesPronosticoLocal}"
+																			immediate="true" class="form-control quantity-input">
+																			<f:convertNumber IntegerOnly="true" />
+																		</h:inputText></td>
+																	<td class="order-table-even-row equipoLocal">#{partido.equipoLocal.nombre}
+																	</td>
+																	<td class="order-table-even-row golesLocal"><h:panelGroup
+																			rendered="#{partido.golesReglamentariosLocal!=null}">
+																		(#{partido.golesReglamentariosLocal})
+																	</h:panelGroup></td>
+																	<td
+																		class="order-table-even-row fechas fecha-#{partido.id}">
+																		<h:outputText value="#{partido.fecha}">
+																			<f:convertDateTime pattern="dd-MM-yyyy HH:mm"
+																				timeZone="America/Montevideo" />
+																		</h:outputText>
+																	</td>
+																	<td class="order-table-even-row golesVisitante"><h:panelGroup
+																			rendered="#{partido.golesReglamentariosVisitante!=null}">
+																		(#{partido.golesReglamentariosVisitante})
+																	</h:panelGroup></td>
+																	<td class="order-table-even-row equipoVisitante">#{partido.equipoVisitante.nombre}
+																	</td>
+																	<td
+																		class="order-table-even-row resultado resultado-#{partido.id}"><h:inputText
+																			value="#{partido.golesPronosticoVisitante}"
+																			immediate="true" class="form-control quantity-input">
+																			<f:convertNumber IntegerOnly="true" />
+																		</h:inputText></td>
+																	<td class="order-table-even-row puntos"><h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==0}">
+																			<div class="cero">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==3}">
+																			<div class="tres">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]!=null and pronosticoBean.mapPuntajes[partido.id]==5}">
+																			<div class="cinco">#{pronosticoBean.mapPuntajes[partido.id]}</div>
+																		</h:panelGroup> <h:panelGroup
+																			rendered="#{pronosticoBean.mapPuntajes[partido.id]==null}">
+																			<div class="cero">0</div>
+																		</h:panelGroup></td>
+																</tr>
+															</h:panelGroup>
+														</ui:repeat>
+													</tbody>
+
+												</table>
+
+												<div class="footer">
+
+													<div style="align-self: flex-start; padding-left: 12px;">
+														<h:panelGroup layout="block"
+															rendered="#{pronosticoBean.mapPuntajeFecha[fecha.id]!=null}"
+															style="margin-top: 15px; height: 42px; vertical-align: middle; color: black; font-style: oblique;">
+															<h3 style="font-weight: 600;">Total:
+																#{pronosticoBean.mapPuntajeFecha[fecha.id]} pts.</h3>
+														</h:panelGroup>
+														<h:panelGroup layout="block"
+															rendered="#{pronosticoBean.mapPuntajeFecha[fecha.id]==null}"
+															style="margin-top: 15px; height: 42px; vertical-align: middle; color: black; font-style: oblique;">
+															<h3 style="font-weight: 600;">Total:
+																#{pronosticoBean.mapPuntajeFecha[fecha.id]} pts.</h3>
+														</h:panelGroup>
+													</div>
+													<div style="align-self: center; padding-right: 12px;">
+														<p:commandLink styleClass="btn_primary btn_login guardar" 
+															update="panelGeneral" 
+															action="#{pronosticoBean.guardarPronosticos(fecha.id)}"
+															value="Guardar" />
+													</div>
+													
+												</div>
+											</div>
+
+										</ui:repeat>
+									</ui:repeat>
+								</div>
+							</div>
+						</h:panelGroup>
+					</h:panelGroup>
+				</h:form>
+			</div>
+
+
+		</div>
+	</div>
+	<script>
+    $( document ).ready(function() {
+        console.log( "document loaded" );
+        var i=0
+        $('.fechas').each(function(){
+        	console.log( "I=" +i);
+	    	var f = $(this).html().trim();
+	    	console.log( "f:"+f );
+	     	var array_fecha = f.split(" ")[0].split("-");
+	     	var dia=array_fecha[0];
+	     	console.log( "dia:"+ dia);
+	     	var mes=(array_fecha[1]-1);
+	     	console.log( "mes:"+mes );
+	     	var anio=(array_fecha[2]);
+	     	console.log( "anio:"+anio );
+
+	     	var array_hora = f.split(" ")[1].split(":");
+	     	
+	     	var fechaDate = new Date(anio,mes,dia,array_hora[0],array_hora[1]);
+	     	
+	     	var hoy = new Date();
+	     	console.log( "hoy:"+hoy );
+	     	console.log( "fecha:"+fechaDate );
+
+			anioHoy=hoy.getFullYear();
+			mesHoy=hoy.getMonth();
+			diaHoy=hoy.getDate();
+			horaHoy=hoy.getHours();
+			minHoy=hoy.getMinutes();
+			var hoySt=diaHoy+"-"+mesHoy+"-"+anioHoy+" "+horaHoy+":"+minHoy;
+			console.log( "hoySt:"+hoySt );
+			var fechaHoy = new Date(anioHoy,mesHoy,diaHoy,horaHoy,minHoy);
+			console.log( "fechaHoy:"+fechaHoy );
+	     	if(fechaDate&lt;fechaHoy){
+	     		console.log('fecha anterior a hoy');
+	     		var idPartido = this.className.split(' ')[2].split('-')[1];
+	     	    $('.resultado-'+idPartido+' input').attr('disabled',true);
+	     	}
+	     	i++;
+        });
+
+        $('.select-penca option').each(function(){
+        	this.className='opciones';
+        })
+        $(".select-penca option")[0].className='primer-opcion';
+    });
+
+    /*$(document).on('click', '.guardar', function(e) {
+   	 	console.log("entra a guardar exito");
+   	 	swal(
+				'¡Excelente!',
+				'El pronóstico se ha guardado correctamente.',
+				'success'
+			)
+		console.log("sale de guardar exito");
+	});*/
+
+    function guardarExito(mensaje){ 
+        console.log("entra a guardar exito");
+        swal(
+				'Excelente!',
+				mensaje,
+				'success'
+			)
+    	console.log("sale de guardar exito");
+    }
+	function error(mensaje){ 
+        console.log("entra a guardar error");
+        swal(
+        		'Error!',
+				mensaje,
+				'error'
+			)
+    	console.log("sale de guardar error");
+    }
+    
+    </script>
+    
+    
+
+</h:body>
+</html>

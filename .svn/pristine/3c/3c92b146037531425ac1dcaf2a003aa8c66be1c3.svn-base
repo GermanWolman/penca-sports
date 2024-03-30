@@ -1,0 +1,18 @@
+package com.pronostico.penca.ejb.api;
+
+import java.util.List;
+
+import javax.ejb.Local;
+
+import com.pronostico.penca.model.Equipo;
+import com.pronostico.penca.model.Torneo;
+
+@Local
+public interface ITorneoEJBLocal {
+
+	public Torneo altaTorneo(Torneo t);
+	public Torneo obtenerTorneoPorId(Long id);
+	public List<Torneo> obtenerTorneosVigentes();
+	public List<Equipo> guardarEquipos(List<Equipo> equipos);
+
+}

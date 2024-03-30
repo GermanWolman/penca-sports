@@ -1,0 +1,9 @@
+com\pronostico\penca\model\Torneo.class
+com\pronostico\penca\model\Grupo.class
+com\pronostico\penca\model\Eliminatoria.class
+com\pronostico\penca\model\Equipo.class
+com\pronostico\penca\model\Partido.class
+com\pronostico\penca\model\Usuario.class
+com\pronostico\penca\model\Pronostico.class
+com\pronostico\penca\util\Resources.class
+com\pronostico\penca\model\GrupoPenca.class

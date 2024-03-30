@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<title>Registro</title>
+	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="manifest"
+		href="http://retrieverfamily.com/penca/site/site.webmanifest" />
+	<link
+		href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed"
+		rel="stylesheet" />
+	<link
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		crossorigin="anonymous" />
+	<link rel="apple-touch-icon"
+		href="http://retrieverfamily.com/penca/site/icon.png" />
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/icons.css" />
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/login.css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css" />
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+</h:head>
+<h:body styleClass="login clearfix">
+
+	<div class="login_left">
+		<div class="login_left_container">
+			<img src="img/logo.png" width="134" class="login_logo" />
+			<h1 style="font-family: 'Roboto Condensed'; font-weight: 700;">Penca
+				sports</h1>
+			<p style="font-family: 'Roboto Condensed';">Crea tu penca
+				personalizada, invita a tus amigos y competí pronosticando el
+				mundial, las ligas nacionales o campeonatos internacionales.</p>
+			<p style="font-family: 'Roboto Condensed';">
+				<strong>Demostrá lo que sabés de fútbol.</strong>
+			</p>
+		</div>
+	</div>
+
+	<div class="login_right">
+
+		<div class="login_box" style="top: 100px !important;">
+
+			<div>
+				<h:form>
+					<h:panelGroup id="panelGeneral">
+						<a class="back_link back_login" href="login.jsf"> <span
+							class="icon icon-arrow-left2" />Volver al Login
+						</a>
+						<!--                 <a href="http://retrieverfamily.com/penca/site/#" class="back_link back_login"><span class="icon icon-arrow-left2"></span>Volver al Login</a> -->
+						<label>Nombre</label>
+						<h:inputText value="#{registroBean.usuarioNuevo.nombre}" />
+						<!--                     <div class="error">error</div> -->
+						<label>Usuario</label>
+						<h:inputText value="#{registroBean.usuarioNuevo.usuario}" />
+						<!--                     <div class="error">error</div> -->
+						<label>Contraseña</label>
+						<h:inputSecret value="#{registroBean.usuarioNuevo.password}" />
+						<!--                     <div class="error">error</div> -->
+						<label>Repetir contraseña</label>
+						<h:inputSecret value="#{registroBean.repetirPassword}" />
+						<!--                     <div class="error">error</div> -->
+						<label>Mail</label>
+						<h:inputText value="#{registroBean.usuarioNuevo.email}" />
+						<!--                     <div class="error">error</div> -->
+						<p:commandButton styleClass="btn_primary btn_login"
+							style="    margin-top: 40px !important;" update="panelGeneral"
+							action="#{registroBean.registrar()}" value="Registrarme"></p:commandButton>
+					</h:panelGroup>
+				</h:form>
+
+				<!--                 <a href="http://retrieverfamily.com/penca/site/#" class="btn_social btn_facebook"><img src="img/fb_icon.png" height="22"/> unirse con Facebook</a> -->
+				<!--                 <a href="http://retrieverfamily.com/penca/site/#" class="btn_social btn_google"><img src="img/g_icon.png" height="22"/> unirse con Google</a> -->
+			</div>
+		</div>
+		<div class="login_box_bg" style="height: 620px;"></div>
+
+	</div>
+
+	<script>
+
+		function error(mensaje){ 
+            console.log("entra a guardar error");
+            swal(
+            		'Error!',
+    				mensaje,
+    				'error'
+    			)
+        	console.log("sale de guardar error");
+        }
+    </script>
+
+</h:body>
+</html>

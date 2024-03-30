@@ -1,0 +1,114 @@
+package com.pronostico.penca.model;
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table( name="Pronostico")
+@NamedQueries({
+	@NamedQuery(name="obtenerPronosticos", query="SELECT p FROM Pronostico p order by p.id"),
+})
+public class Pronostico implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private Long id;
+	
+	@OneToOne
+	private Equipo equipoGanador;
+	
+	private int golesLocal;
+	private int golesVisitante;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="pronostico_partido_id")
+	private Partido partido;
+	
+	private Integer puntaje;
+	
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private GrupoPenca grupoPenca;
+	
+	@ManyToOne(targetEntity=Usuario.class, cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Usuario usuario;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Equipo getEquipoGanador() {
+		return equipoGanador;
+	}
+
+	public void setEquipoGanador(Equipo equipoGanador) {
+		this.equipoGanador = equipoGanador;
+	}
+
+	public int getGolesLocal() {
+		return golesLocal;
+	}
+
+	public void setGolesLocal(int golesLocal) {
+		this.golesLocal = golesLocal;
+	}
+
+	public int getGolesVisitante() {
+		return golesVisitante;
+	}
+
+	public void setGolesVisitante(int golesVisitante) {
+		this.golesVisitante = golesVisitante;
+	}
+
+	public Partido getPartido() {
+		return partido;
+	}
+
+	public void setPartido(Partido partido) {
+		this.partido = partido;
+	}
+
+	public Integer getPuntaje() {
+		return puntaje;
+	}
+
+	public void setPuntaje(Integer puntaje) {
+		this.puntaje = puntaje;
+	}
+
+	public GrupoPenca getGrupoPenca() {
+		return grupoPenca;
+	}
+
+	public void setGrupoPenca(GrupoPenca grupoPenca) {
+		this.grupoPenca = grupoPenca;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+}

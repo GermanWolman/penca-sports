@@ -1,0 +1,151 @@
+package com.pronostico.penca.beans;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+import com.pronostico.penca.ejb.api.IUsuariosEjbLocal;
+import com.pronostico.penca.model.Usuario;
+
+@ManagedBean(name = "loginBean")
+@RequestScoped
+public class LoginBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	IUsuariosEjbLocal ejbUsuarios;
+
+	@ManagedProperty("#{sesionBean}")
+	private SesionBean sesion;
+
+	private String usuario;
+	private String password;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("Login Bean init()");
+	}
+
+	public String loguear() {
+		try {
+
+			System.out.println("loguear()---> usuario:" + usuario + " - password:" + password);
+			String con = "";
+			con = getStringMessageDigest(password);
+			System.out.println("password cifrada:" + con);
+
+			Usuario u = ejbUsuarios.obtenerUsuario(usuario, con);
+			if (null != u) {
+
+				sesion.setUsuarioLogueado(u);
+				sesion.setEstaLogueado(true);
+
+//				try {
+//					FacesContext.getCurrentInstance().getExternalContext()
+//							.redirect("principal.jsf?faces-redirect=true");
+//				} catch (IOException e) {
+//					FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al iniciar sesion", "");
+//					FacesContext.getCurrentInstance().addMessage(null, msg);
+//					return "";
+//				}
+				return "principal.jsf?faces-redirect=true";
+			} else {
+				System.out.println("Error de usuairo y/o contraseña");
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de usuairo y/o contraseña", ""));
+				return "";
+			}
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de usuairo y/o contrasenia Exception", ""));
+			// e.printStackTrace();
+		}
+		return "principal.jsf?faces-redirect=true";
+	}
+
+	public String irRegistrarUsuario() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("registro.jsf?faces-redirect=true");
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al ir a registrarse", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "";
+		}
+		return "registro?faces-redirect=true";
+	}
+
+	private String toHexadecimal(byte[] digest) {
+		String hash = "";
+		for (byte aux : digest) {
+			int b = aux & 0xff;
+			if (Integer.toHexString(b).length() == 1)
+				hash += "0";
+			hash += Integer.toHexString(b);
+		}
+		return hash;
+	}
+
+	private String getStringMessageDigest(String message) {
+		byte[] digest = null;
+		byte[] buffer = message.getBytes();
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			messageDigest.reset();
+			messageDigest.update(buffer);
+			digest = messageDigest.digest();
+		} catch (NoSuchAlgorithmException ex) {
+			System.out.println("Error creando Digest");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hubo un error en la aplicación.", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		return toHexadecimal(digest);
+	}
+
+	public String redirigir(String url) {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(url + ".jsf");
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al acceder", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "";
+		}
+		return "";
+
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public SesionBean getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(SesionBean sesion) {
+		this.sesion = sesion;
+	}
+
+}

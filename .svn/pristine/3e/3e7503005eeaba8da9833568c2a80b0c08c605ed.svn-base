@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<title>Registro</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+</h:head>
+<h:body>
+	<h:form>
+
+		<h:messages />
+
+			Input Ingresado: <h:inputText value="#{pruebaEJBBean.inputIngresado}" />
+
+		<h:outputLabel value="#{pruebaEJBBean.mensajeAMostrar}" />
+		
+		<hr />
+		<h:commandButton action="#{pruebaEJBBean.listaSeleccionesWC2018()}"
+			value="Guardar Selecciones WC 2018" />
+		<h:commandButton action="#{pruebaEJBBean.crearWC2018()}"
+			value="Creacion WC 2018" />
+		<h:commandButton action="#{pruebaEJBBean.creacionTorneo()}"
+			value="Creacion Campeonato Uruguayo" />
+		<h:commandButton action="#{pruebaEJBBean.mostrarTorneo()}"
+			value="Mostrar Torneo" />
+
+	</h:form>
+</h:body>
+</html>

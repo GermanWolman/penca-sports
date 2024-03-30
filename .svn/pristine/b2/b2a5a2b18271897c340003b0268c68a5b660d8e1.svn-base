@@ -1,0 +1,108 @@
+package com.pronostico.penca.beans;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+
+import com.pronostico.penca.ejb.api.ITorneoEJBLocal;
+import com.pronostico.penca.ejb.api.IUsuariosEjbLocal;
+import com.pronostico.penca.model.Grupo;
+import com.pronostico.penca.model.Torneo;
+
+@ManagedBean(name = "principalBean")
+@RequestScoped
+@SuppressWarnings("unused")
+public class PrincipalBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	IUsuariosEjbLocal ejbUsuarios;
+
+	@Inject
+	ITorneoEJBLocal ejbTorneos;
+
+	@ManagedProperty("#{sesionBean}")
+	private SesionBean sesion;
+
+	private String usuario;
+	private String nombre;
+
+	private List<Torneo> torneos;
+	private List<Grupo> grupos;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("PrincipalBean init()");
+		if (sesion.getUsuarioLogueado() != null) {
+
+			usuario = sesion.getUsuarioLogueado().getUsuario();
+			nombre = sesion.getUsuarioLogueado().getNombre();
+		} else {
+			System.out.println("usuario null");
+		}
+	}
+
+	public SesionBean getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(SesionBean sesion) {
+		this.sesion = sesion;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public List<Torneo> getTorneos() {
+		List<Torneo> torneos = ejbTorneos.obtenerTorneosVigentes();
+		return torneos;
+	}
+
+	public void setTorneos(List<Torneo> torneos) {
+		this.torneos = torneos;
+	}
+
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
+
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
+	}
+
+	public String verGrupos(Long idTorneo) {
+
+		Torneo elegido = null;
+
+		// No es mejor guardarlo en la sesion?
+		for (Torneo torneo : getTorneos()) {
+			if (torneo.getId() == idTorneo) {
+				elegido = torneo;
+			}
+		}
+
+		grupos = elegido.getGrupos();
+
+		return "grupos";
+	}
+
+}

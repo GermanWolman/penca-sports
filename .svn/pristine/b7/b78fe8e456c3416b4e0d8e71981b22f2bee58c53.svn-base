@@ -1,0 +1,5 @@
+com\pronostico\penca\model\Member.class
+com\pronostico\penca\util\Resources.class
+com\pronostico\penca\data\MemberListProducer.class
+com\pronostico\penca\service\MemberRegistration.class
+com\pronostico\penca\data\MemberRepository.class

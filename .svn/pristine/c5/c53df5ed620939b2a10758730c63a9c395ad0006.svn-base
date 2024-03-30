@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title></title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="manifest" href="http://retrieverfamily.com/penca/site/site.webmanifest"/>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i" rel="stylesheet"/>
+    <link rel="apple-touch-icon" href="http://retrieverfamily.com/penca/site/icon.png"/>
+    <!-- Place favicon.ico in the root directory -->
+    <link href="css" rel="stylesheet"/> 
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" href="css/icons.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</h:head>
+<h:body styleClass="login clearfix">
+
+	<div class="login_left">
+        <div class="login_left_container">
+            <img src="img/logo.png" width="134" class="login_logo"/>
+            <h1>Penca online</h1>
+            <p>Creá tu penca online personalizada, invita a tus amigos y competí pronosticando el mundial, las ligas nacionales o campeonatos internacionales.</p>
+            <p><strong>Demostrá lo que sabés de fútbol.</strong></p>
+        </div>
+    </div>
+    
+     <div class="login_right">
+       
+       <div class="login_box">
+           
+           <div class="">
+                <h:form>
+                    <label style="margin-top:0px">Mail</label>
+                    <h:inputText value="#{loginBean.usuario}" />
+                    <div class="error">error</div>
+                    <label>Contraseña</label>
+                    <h:inputSecret class="input100" value="#{loginBean.password}" />
+                    <div class="error">error</div>
+                    <h:commandButton class="btn_primary btn_login" action="#{loginBean.loguear()}" value="Inicair sesión"/>
+<!--                     <button type="submit" class="btn_primary btn_login">Inicair sesión</button> -->
+	                <a href="http://retrieverfamily.com/penca/site/#" class="btn_social btn_facebook"><img src="img/fb_icon.png" height="22"/> inciar con Facebook</a>
+	                <a href="http://retrieverfamily.com/penca/site/#" class="btn_social btn_google"><img src="img/g_icon.png" height="22"/> iniciar con Google</a>
+	
+	                <h2>¿No tienes cuenta?</h2>
+	                <h:commandLink styleClass="btn_secondary btn_register" action="#{loginBean.irRegistrarUsuario()}"
+						value="Registrarme">
+					</h:commandLink>
+                </h:form>
+<!--                 <a href="http://retrieverfamily.com/penca/site/#" class="btn_secondary btn_register">Registrarme</a> -->
+           </div>
+        </div>
+        <div class="login_box_bg"></div>
+  
+    </div>
+    <script src="js/modernizr-3.5.0.min.js.descarga"></script>
+    <script src="js/jquery-3.2.1.min.js.descarga" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<!--     <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script> -->
+    <script src="js/plugins.js.descarga"></script>
+    <script src="js/main.js.descarga"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+    <script>
+        window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+        ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+    </script>
+    <script src="js/analytics.js.descarga" async="" defer=""></script>
+</h:body>
+</html>

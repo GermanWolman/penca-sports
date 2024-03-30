@@ -1,0 +1,14 @@
+com\pronostico\penca\beans\PuntajesBean.class
+com\pronostico\penca\util\WebResources.class
+com\pronostico\penca\beans\SesionBean.class
+com\pronostico\penca\rest\JaxRsActivator.class
+com\pronostico\penca\beans\LoginBean.class
+com\pronostico\penca\beans\PrincipalBean.class
+com\pronostico\penca\beans\PronosticoBean.class
+com\pronostico\penca\beans\PuntajesBean$1.class
+com\pronostico\penca\beans\PuntajesBean$2.class
+com\pronostico\penca\beans\PronosticoUsuarioBean.class
+com\pronostico\penca\beans\PencasBean.class
+com\pronostico\penca\beans\AdministrarPencasBean.class
+com\pronostico\penca\beans\FiltroAcceso.class
+com\pronostico\penca\beans\RegistroBean.class

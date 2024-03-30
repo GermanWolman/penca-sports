@@ -1,0 +1,4 @@
+com\pronostico\penca\rest\MemberResourceRESTService.class
+com\pronostico\penca\util\WebResources.class
+com\pronostico\penca\controller\MemberController.class
+com\pronostico\penca\rest\JaxRsActivator.class

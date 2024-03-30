@@ -1,0 +1,107 @@
+package com.pronostico.penca.model;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table( name="GrupoPenca")
+@NamedQueries({
+	@NamedQuery(name="obtenerGrupoPenca", query="SELECT gp FROM GrupoPenca gp order by gp.nombre"),
+	@NamedQuery(name="obtenerUsuariosGrupoPenca", query="SELECT u FROM GrupoPenca gp join gp.usuarios u WHERE gp.id=:idGrupoPenca"),
+})
+public class GrupoPenca implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private Long id;
+	
+	@Column(unique=true)
+	private String nombre;
+	
+	@OneToOne
+	private Usuario usuarioAdministrador;
+	
+	private boolean esAbierta;
+	private boolean mandaNotificaciones;
+	
+	@ManyToMany
+	private List<Usuario> usuarios;
+	
+	@OneToMany(mappedBy="grupoPenca")
+	private List<Pronostico> pronosticos;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Usuario getUsuarioAdministrador() {
+		return usuarioAdministrador;
+	}
+
+	public void setUsuarioAdministrador(Usuario usuarioAdministrador) {
+		this.usuarioAdministrador = usuarioAdministrador;
+	}
+
+	public boolean isEsAbierta() {
+		return esAbierta;
+	}
+
+	public void setEsAbierta(boolean esAbierta) {
+		this.esAbierta = esAbierta;
+	}
+
+	public boolean isMandaNotificaciones() {
+		return mandaNotificaciones;
+	}
+
+	public void setMandaNotificaciones(boolean mandaNotificaciones) {
+		this.mandaNotificaciones = mandaNotificaciones;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public List<Pronostico> getPronosticos() {
+		return pronosticos;
+	}
+
+	public void setPronosticos(List<Pronostico> pronosticos) {
+		this.pronosticos = pronosticos;
+	}
+	
+	
+
+	
+}

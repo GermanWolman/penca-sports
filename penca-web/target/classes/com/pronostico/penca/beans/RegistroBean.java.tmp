@@ -1,0 +1,130 @@
+package com.pronostico.penca.beans;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+//import com.pronostico.penca.ejb.api.IUsuariosEJBLocal;
+import com.pronostico.penca.ejb.api.IUsuariosEjbLocal;
+import com.pronostico.penca.model.Usuario;
+
+@ManagedBean(name = "registroBean")
+@RequestScoped
+public class RegistroBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	IUsuariosEjbLocal ejbUsuarios;
+
+	private Usuario usuarioNuevo;
+
+	@ManagedProperty("#{sesionBean}")
+	private SesionBean sesion;
+
+	@PostConstruct
+	public void init() {
+		try {
+			usuarioNuevo = new Usuario();
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error en registro", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+
+	}
+
+	public String registrar() {
+		try {
+			if ("".equals(usuarioNuevo.getUsuario()) || "".equals(usuarioNuevo.getPassword())) {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Debe ingresar nombre, apellido, usuario y contraseña.", "");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				return "";
+			}
+
+			usuarioNuevo.setPassword(getStringMessageDigest(usuarioNuevo.getPassword()));
+			usuarioNuevo = ejbUsuarios.guardarUsuario(usuarioNuevo);
+			System.out.println("Se guardó usuario:" + usuarioNuevo.getId());
+
+//			try {
+//				FacesContext.getCurrentInstance().getExternalContext().redirect("index.jsf?faces-redirect=true");
+//			} catch (IOException e) {
+//				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrarse", "");
+//				FacesContext.getCurrentInstance().addMessage(null, msg);
+//				return "";
+//			}
+			return "index?faces-redirect=true";
+
+		} catch (Exception e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrarse.", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		return "";
+	}
+
+	private String toHexadecimal(byte[] digest) {
+		String hash = "";
+		for (byte aux : digest) {
+			int b = aux & 0xff;
+			if (Integer.toHexString(b).length() == 1)
+				hash += "0";
+			hash += Integer.toHexString(b);
+		}
+		return hash;
+	}
+
+	private String getStringMessageDigest(String message) {
+		byte[] digest = null;
+		byte[] buffer = message.getBytes();
+		try {
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+			messageDigest.reset();
+			messageDigest.update(buffer);
+			digest = messageDigest.digest();
+		} catch (NoSuchAlgorithmException ex) {
+			System.out.println("Error creando Digest");
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hubo un error en la aplicación.", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		return toHexadecimal(digest);
+	}
+
+	public String volver() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("index.jsf?faces-redirect=true");
+			return "index";
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al volver", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "";
+		}
+
+	}
+
+	public Usuario getUsuarioNuevo() {
+		return usuarioNuevo;
+	}
+
+	public void setUsuarioNuevo(Usuario usuarioNuevo) {
+		this.usuarioNuevo = usuarioNuevo;
+	}
+
+	public SesionBean getSssion() {
+		return sesion;
+	}
+
+	public void setSesion(SesionBean sesion) {
+		this.sesion = sesion;
+	}
+
+}

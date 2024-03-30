@@ -1,0 +1,56 @@
+package com.pronostico.penca.beans;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import com.pronostico.penca.model.Usuario;
+
+@ManagedBean(name = "sesionBean")
+@SessionScoped
+public class SesionBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Usuario usuarioLogueado;
+
+	private boolean estaLogueado;
+
+	@PostConstruct
+	public void init() {
+		System.out.println("init sesionBean");
+		usuarioLogueado = null;
+		estaLogueado = false;
+
+	}
+
+	public String logout() {
+
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		usuarioLogueado = null;
+		this.estaLogueado = false;
+
+		return "index?faces-redirect=true";
+	}
+
+
+	public Usuario getUsuarioLogueado() {
+		return usuarioLogueado;
+	}
+
+	public void setUsuarioLogueado(Usuario usuarioLogueado) {
+		this.usuarioLogueado = usuarioLogueado;
+	}
+
+	public boolean isEstaLogueado() {
+		return estaLogueado;
+	}
+
+	public void setEstaLogueado(boolean estaLogueado) {
+		this.estaLogueado = estaLogueado;
+	}
+
+}
